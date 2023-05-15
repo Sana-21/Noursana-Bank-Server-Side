@@ -7,7 +7,7 @@ const BankSchema = new mongoose.Schema(
       required: true,
     },
     cnic: {
-      type: String,
+      type: Number,
       required: true,
       unique: true,
     },
