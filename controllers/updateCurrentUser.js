@@ -1,30 +1,27 @@
 const express = require('express');
-const router = express.Router();
-const CurrentUser = require('../models/CurrentUser');
-const moment = require('moment');
+const app = express();
+const User = require('../models/UserDetails');
+const CurrentUser = require('../models/CurrentUser')
+app.use(express.json()); // enable parsing of JSON request bodies
 
-// PUT endpoint to update currentUser
-router.put('/currentUser/:id', async (req, res) => {
-  const { id } = req.params;
-
+app.post('/updateCurrentUser', async (req, res) => {
+  const { loginId} = req.body;
   try {
-    const { currentUser } = req.body;
+    const userData = await User.findOne({ loginId });
 
-    const updatedCurrentUser = await CurrentUser.findByIdAndUpdate(
-      id,
-      { currentUser, updatedAt: moment().format('HH:mm, DD/MM/YY') },
-      { new: true }
-    ).populate('currentUser');
-
-    if (!updatedCurrentUser) {
-      return res.status(404).json({ status: 'Error', message: 'CurrentUser not found' });
+    if (!userData) {
+      return res.send({ status: 'User Data not found' });
     }
 
-    res.json({ status: 'Success', currentUser: updatedCurrentUser });
+    await CurrentUser.create({
+      userData: userData._id,
+    });
+
+    res.send({ status: 'OK' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ status: 'Error', message: 'Failed to update currentUser' });
+    res.send({ status: 'Error' });
   }
 });
 
-module.exports = router;
+module.exports = app;
+

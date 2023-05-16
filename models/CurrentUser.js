@@ -4,12 +4,12 @@ const moment = require('moment');
 const CurrentUserSchema = new mongoose.Schema({
   currentUser: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'BankData',
+    ref: 'UserDetails',
     default: null,
   },
   updatedAt: {
-    type: String,
-    default: moment().format('HH:mm, DD/MM/YY'),
+    type: Date,
+    default: Date.now,
   },
 });
 
