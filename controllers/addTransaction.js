@@ -1,25 +1,35 @@
-  const User = require('../models/UserDetails')
-  const addTransaction = async (req, res) => {
+const User = require('../models/UserDetails');
+const BankData = require('../models/BankData');
+const Transaction = require('../models/Transaction');
+
+const addTransaction = async (req, res) => {
   const { senderAccNo, recipientAccNo, amount } = req.body;
 
   try {
-    const sender = await User.findOne({ accNo: senderAccNo });
-    const recipient = await User.findOne({ accNo: recipientAccNo });
+    const sender = await BankData.findOne({ accNo: senderAccNo });
+    const recipient = await BankData.findOne({ accNo: recipientAccNo });
 
     if (!sender || !recipient) {
       return res.send({ status: 'Account does not exist' });
     }
 
+    const senderUser = await User.findOne({ bankData: sender._id });
+    const recipientUser = await User.findOne({ bankData: recipient._id });
+
+    if (!senderUser || !recipientUser) {
+      return res.send({ status: 'User not found' });
+    }
+
     const senderTransaction = new Transaction({
-      sender: sender._id,
-      recipient: recipient._id,
-      amount
+      sender: senderUser._id,
+      recipient: recipientUser._id,
+      amount: -amount, // negative amount to represent money leaving the account
     });
 
     const recipientTransaction = new Transaction({
-      sender: sender._id,
-      recipient: recipient._id,
-      amount: -amount // negative amount to represent money received
+      sender: senderUser._id,
+      recipient: recipientUser._id,
+      amount,
     });
 
     // Update the sender's balance
@@ -31,10 +41,12 @@
     await senderTransaction.save();
     await recipientTransaction.save();
 
-    sender.transactions.push(senderTransaction);
-    recipient.transactions.push(recipientTransaction);
-  
-   
+    senderUser.transactions.push(senderTransaction);
+    recipientUser.transactions.push(recipientTransaction);
+
+    await senderUser.save();
+    await recipientUser.save();
+
     await sender.save();
     await recipient.save();
 
@@ -42,6 +54,6 @@
   } catch (error) {
     res.status(500).send({ status: 'Error occurred' });
   }
-}
+};
 
 module.exports = addTransaction;

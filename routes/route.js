@@ -6,7 +6,9 @@ const loginVerify = require('../controllers/loginVerify')
 const register = require('../controllers/register');
 const bankusers = require('../controllers/getBankData');
 const addBankUser = require('../controllers/addBankUser');
-const updateCurrentUser = require('../controllers/updateCurrentUser')
+const updateCurrentUser = require('../controllers/updateCurrentUser');
+const trans = require('../controllers/addTransaction');
+const gettrans = require('../controllers/getAllTransactions');
 
 const reg = require("../controllers/getRegUsers");
 const currGet = require("../controllers/getCurrentUser");
@@ -16,9 +18,12 @@ router.post('/register', register);
 router.post('/login', loginVerify);
 router.get('/bankData', bankusers);
 router.post('/bankData', addBankUser);
-router.post('/updateCurrentUser', updateCurrentUser)
+router.post('/updateCurrentUser', updateCurrentUser);
 
 router.get('/registeredusers', reg);
 router.get('/CurrentUser', currGet);
+router.post('/transaction', trans);
+router.get('/transaction', gettrans);
+
 module.exports = router;
 

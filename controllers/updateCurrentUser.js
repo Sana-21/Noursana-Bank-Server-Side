@@ -10,7 +10,7 @@ const updateCurrentUser = async (req, res) => {
     const userData = await User.findOne({ loginId });
 
     if (!userData) {
-      return res.send({ status: 'User Data not found' });
+      return res.send({ status: 'Data not found' });
     }
 
     // Delete previous current user entry
