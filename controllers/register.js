@@ -2,9 +2,8 @@ const express = require('express');
 const app = express();
 const User = require('../models/UserDetails');
 const BankData = require('../models/BankData')
-app.use(express.json()); // enable parsing of JSON request bodies
 
-app.post('/register', async (req, res) => {
+const registerUser = async (req, res) => {
   const { loginId, email, password, cnic} = req.body;
   try {
     const bankData = await BankData.findOne({ cnic });
@@ -25,5 +24,5 @@ app.post('/register', async (req, res) => {
   } catch (error) {
     res.send({ status: 'Error' });
   }
-});
-module.exports = app;
+}
+module.exports = registerUser;

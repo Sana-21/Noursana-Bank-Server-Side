@@ -18,6 +18,11 @@ const transactionSchema = new mongoose.Schema({
       type: Date,
       default: Date.now
     }
-  });
+  },
+  {
+    collection: "TransData",
+  }
+  );
 
-  
+const TransactionData = mongoose.model('TransData', transactionSchema);
+module.exports = TransactionData;
