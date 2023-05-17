@@ -10,6 +10,10 @@ const CurrentUserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  last:{
+    type: Date,
+    default: null,
+  }
 });
 
 const CurrentUser = mongoose.model('CurrentUser', CurrentUserSchema);

@@ -20,23 +20,25 @@ const addTransaction = async (req, res) => {
       return res.send({ status: 'User not found' });
     }
 
+    // Update the sender's balance
+    sender.balance -= amount;
+
+    // Update the recipient's balance
+    recipient.balance += amount;
+
     const senderTransaction = new Transaction({
       sender: senderUser._id,
       recipient: recipientUser._id,
       amount: -amount, // negative amount to represent money leaving the account
+      bal: sender.balance,
     });
 
     const recipientTransaction = new Transaction({
       sender: senderUser._id,
       recipient: recipientUser._id,
       amount,
+      bal: recipient.balance,
     });
-
-    // Update the sender's balance
-    sender.balance -= amount;
-
-    // Update the recipient's balance
-    recipient.balance += amount;
 
     await senderTransaction.save();
     await recipientTransaction.save();

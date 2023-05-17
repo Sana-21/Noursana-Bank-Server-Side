@@ -9,12 +9,16 @@ const addBankUser = require('../controllers/addBankUser');
 const updateCurrentUser = require('../controllers/updateCurrentUser');
 const trans = require('../controllers/addTransaction');
 const gettrans = require('../controllers/getAllTransactions');
+const gettransdata = require('../controllers/getTransactions');
 
 const reg = require("../controllers/getRegUsers");
 const currGet = require("../controllers/getCurrentUser");
+
 const Beneficiary = require("../controllers/beneficiaryController")
 const deleteBeneficiary = require("../controllers/deleteBene")
 const AllBeneficiaries = require("../controllers/getBeneficiaries")
+
+const { getUserDataByID } = require('../controllers/userController');
 
 router.post('/signupverify', signUpVerify);
 router.post('/register', register);
@@ -30,6 +34,10 @@ router.get('/transaction', gettrans);
 router.post('/addBeneficiary', Beneficiary);
 router.delete('/beneficiaries/:beneficiaryId', deleteBeneficiary);
 
+
 // router.get('/getBeneficiaryList', Beneficiary.getBeneficiary)
+router.get('/user/:id', getUserDataByID);
+
+router.get('/transactionData', gettransdata);
 module.exports = router;
 
