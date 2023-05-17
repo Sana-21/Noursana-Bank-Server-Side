@@ -6,9 +6,10 @@ const beneficiarySchema = new mongoose.Schema({
     required: true
   },
   accountNumber: {
-    type: String,
+    type: Number,
     required: true
   }
+
 });
 
 const BeneficiaryData = mongoose.model('beneficiaryData', beneficiarySchema);
