@@ -5,7 +5,7 @@ const CurrentUser = require('../models/CurrentUser')
 app.use(express.json()); // enable parsing of JSON request bodies
 
 app.post('/updateCurrentUser', async (req, res) => {
-  const { loginId} = req.body;
+  const { loginId } = req.body;
   try {
     const userData = await User.findOne({ loginId });
 
@@ -13,8 +13,12 @@ app.post('/updateCurrentUser', async (req, res) => {
       return res.send({ status: 'User Data not found' });
     }
 
+    // Delete previous current user entry
+    await CurrentUser.deleteMany({});
+
+    // Create new current user entry
     await CurrentUser.create({
-      userData: userData._id,
+      currentUser: userData._id,
     });
 
     res.send({ status: 'OK' });
