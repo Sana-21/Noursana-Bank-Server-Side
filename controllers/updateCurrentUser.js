@@ -4,8 +4,8 @@ const User = require('../models/UserDetails');
 const CurrentUser = require('../models/CurrentUser')
 app.use(express.json()); // enable parsing of JSON request bodies
 
-app.post('/updateCurrentUser', async (req, res) => {
-  const { loginId } = req.body;
+const updateCurrentUser = async (req, res) => {
+  const { loginId} = req.body;
   try {
     const userData = await User.findOne({ loginId });
 
@@ -25,7 +25,7 @@ app.post('/updateCurrentUser', async (req, res) => {
   } catch (error) {
     res.send({ status: 'Error' });
   }
-});
+}
 
-module.exports = app;
+module.exports = updateCurrentUser;
 

@@ -1,9 +1,8 @@
 const express = require('express');
 const app = express();
 const BankData = require('../models/BankData');
-app.use(express.json()); // enable parsing of JSON request bodies
 
-app.post('/bankData', async (req, res) => {
+const addBankUser = async (req, res) => {
     const { cnic, cardNo, balance, accNo } = req.body;
 
   // Validate non-negative values
@@ -18,6 +17,6 @@ app.post('/bankData', async (req, res) => {
       console.error(error);
       res.status(500).json({ status: 'Error', message: 'Failed to add bank data' });
     }
-  });
+  }
   
-  module.exports = app;
+  module.exports = addBankUser;
