@@ -11,5 +11,5 @@ const beneficiarySchema = new mongoose.Schema({
   }
 });
 
-const BeneficiaryData = mongoose.model('UserData', UserSchema);
+const BeneficiaryData = mongoose.model('beneficiaryData', beneficiarySchema);
 module.exports = BeneficiaryData;
