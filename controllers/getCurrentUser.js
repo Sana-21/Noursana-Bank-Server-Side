@@ -4,7 +4,7 @@ const user = require('../models/CurrentUser');
 app.use(express.json()); // enable parsing of JSON request bodies
 
 // GET endpoint to fetch all bank data
-app.get('/CurrentUser', async (req, res) => {
+const getCurrentUser = async (req, res) => {
     try {
       const u = await user.find();
       res.status(200).json({ status: 'Success', u });
@@ -12,6 +12,6 @@ app.get('/CurrentUser', async (req, res) => {
       console.error(error);
       res.status(500).json({ status: 'Error', message: 'Failed to fetch bank data' });
     }
-  });
+  }
   
-  module.exports = app;
+  module.exports = getCurrentUser
