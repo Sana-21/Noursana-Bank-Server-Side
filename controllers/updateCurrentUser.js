@@ -13,8 +13,12 @@ const updateCurrentUser = async (req, res) => {
       return res.send({ status: 'User Data not found' });
     }
 
+    // Delete previous current user entry
+    await CurrentUser.deleteMany({});
+
+    // Create new current user entry
     await CurrentUser.create({
-      userData: userData._id,
+      currentUser: userData._id,
     });
 
     res.send({ status: 'OK' });
