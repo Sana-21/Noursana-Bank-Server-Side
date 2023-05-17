@@ -17,6 +17,10 @@ const transactionSchema = new mongoose.Schema({
     timestamp: {
       type: Date,
       default: Date.now
+    },
+    bal:{
+      type: Number,
+      required: true,
     }
   },
   {
