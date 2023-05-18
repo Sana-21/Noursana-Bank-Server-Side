@@ -1,11 +1,13 @@
 const UserData = require('../models/UserDetails');
 const BeneficiaryData = require('../models/Beneficiary');
+const CurrentUser = require('../models/CurrentUser');
 const deleteBeneficiary = async (req, res) => {
     const { beneficiaryId } = req.params;
   
     try {
-      const currentUser = await UserData.findById(req.user.id);
-  
+      const u = await CurrentUser.findOne();
+      const currentUser = await UserData.findOne({ _id: u.currentUser });
+
       // Check if the beneficiary exists in the user's beneficiaries array
       const beneficiaryIndex = currentUser.beneficiaries.findIndex(
         (beneficiary) => beneficiary.toString() === beneficiaryId
